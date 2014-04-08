@@ -1,0 +1,6 @@
+Compilar o Muesli:
+
+ mpic++ -openmp BsrIndex.cpp Distribution.cpp Muesli.cpp OAL.cpp RoundRobinDistribution.cpp SaxMuesli.cpp -o SaxMuesli
+
+Compilar o SkePU:
+ g++ dotproduct.cpp -I/home/deives/FrameDisser/skepu/ -o dotproduct  -DSKEPU_OPENMP -fopenmp

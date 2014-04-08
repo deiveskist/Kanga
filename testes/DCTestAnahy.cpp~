@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <pthread.h>
+#include <stdlib.h>
+
+#include "compute_time.c"
+
+#include "AnahyVM.h"
+#include "AnahyJob.h"
+
+#define MAX 100
+int a[MAX];
+
+typedef struct node {
+  int i;
+  int j;
+}NODE;
+
+void merge(int i, int j)
+{
+  int mid = (i+j)/2;
+  int ai = i;
+  int bi = mid+1;
+
+  int newa[j-i+1], newai = 0;
+
+  while(ai <= mid && bi <= j) {
+    if (a[ai] > a[bi])
+        newa[newai++] = a[bi++];
+    else                    
+        newa[newai++] = a[ai++];
+  }
+
+  while(ai <= mid) {
+    newa[newai++] = a[ai++];
+  }
+
+  while(bi <= j) {
+    newa[newai++] = a[bi++];
+  }
+
+  for (ai = 0; ai < (j-i+1) ; ai++)
+    a[i+ai] = newa[ai];
+}
+
+void * mergesort(void *a)
+{
+        NODE *p = (NODE *)a;
+        NODE n1, n2;
+        int mid = (p->i+p->j)/2;
+        AnahyJob job1, job2;
+        int ret;
+
+        n1.i = p->i;
+        n1.j = mid;
+
+        n2.i = mid+1;
+        n2.j = p->j;
+
+        if (p->i >= p->j) return NULL;
+
+        job1.init(mergesort, &n1,NULL);
+        AnahyVM::fork(&job1);
+       
+        ret = pthread_create(&tid2, NULL, mergesort, &n2);
+
+        job2.init(mergesort, &n2,NULL);
+        AnahyVM::fork(&job2);
+       
+        AnahyVM::join(job1, NULL);
+        AnahyVM::join(job2, NULL);
+
+        merge(p->i, p->j);
+        
+}
+
+
+int main(int argc, char **argv){
+  AnahyVM::init(argc, argv);
+  int n=atoi(argv[1]);
+  int i;
+
+  for(i=0;i<n;i++) a[i]=n-i;
+
+  NODE m;
+  m.i = 0;
+  m.j = n-1;
+  AnahyJob job;
+  int ret; 
+  time_log_start(); 
+  job.init(mergesort, &m,NULL);
+  AnahyVM::fork(&job);
+  
+  pthread_join(tid, NULL);
+  AnahyVM::join(&job, NULL);
+  time_log_stop();
+
+  for (i = 0; i < n; i++) printf ("%d ", a[i]);
+  printf ("\n");
+
+  AnahyVM::terminate();
+  return 0;
+}

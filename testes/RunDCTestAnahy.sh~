@@ -1,0 +1,27 @@
+#!/bin/bash
+
+for i in $(seq 30)
+do 
+ echo -n "10000 ; "
+ ./DCTestAnahy 10000
+
+done
+
+for i in $(seq 20)
+do 
+  echo -n "20000 ; "
+ ./DCTestAnahy 20000
+
+done
+
+for i in $(seq 30)
+do 
+  echo -n "30000 ; "
+ ./DCTestAnahy 30000
+done
+
+for i in $(seq 30)
+do 
+  echo -n "40000 ; "
+ ./DCTestAnahy 40000
+done

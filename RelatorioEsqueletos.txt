@@ -1,0 +1,124 @@
+Relatorio dos Esqueletos Implementados:
+
+Proximas atividades de implementações:
+	- Definir e padronizar os metodos de entrada e saida.
+	- Teste esqueletos recebendo outros tipos de objetos;
+		-> exemplo: map(fork);
+	- Definir outros teste para o Fork;	
+
+Esqueleto Map:
+
+	template <IN,OUT>;
+
+	Construtores:
+		- Vazio;
+		- Copia;
+		- Com parametros:
+			- 1: função, lista de entrada, lista de saida, tamanho das listas;
+			- 2: função e tamanho;
+			- 3: objeto, matriz de entrada, matriz de saida e numero de linhas;
+
+	Metodos de entrada e saida:
+
+		- setDataIn e setDataOut;
+		- getDataOut e getListOut;
+
+	Testes:
+		- Multiplicar cada elemento de uma vetor por dois. OK
+		- Multiplicar cada elemento de uma matriz por dois. OK
+			-> Utilizando a composição de objetos.
+		- Realizar a operação SAXPY (z <— y + alpha x) . OK
+			-> Onde z,y e x são vetores e alpha é uma constrante;
+			-> Utilizando uma struct.
+
+
+Esqueleto Fork:
+
+	template <IN,OUT>;
+
+	Construtores:
+		- Vazio;
+		- Copia;
+		- Com parametros:
+			- 1: vetor de funções, lista de entrada, lista de saida, tamanho das listas;
+			- 2: vetor de funções e tamanho;
+			- 3: objeto, matriz de entrada, matriz de saida e numero de linhas;
+
+	Metodos de entrada e saida:
+
+		- setDataIn e setDataOut;
+		- getDataOut e getListOut;
+
+	Testes:
+		- Multiplicar cada elemento de uma vetor por cada função de um vetor de funções. OK
+		- Multiplicar cada linha de uma matriz por cada função de um vetor de funções. OK
+			-> Utilizando a composição de objetos.
+		
+
+Esqueleto Reduce:
+
+	template <T>;
+
+	Construtores:
+		- Vazio;
+		- Copia;
+		- Com parametros:
+			- 1: função, lista de entrada, lista de saida, tamanho das listas;
+			- 2: função e tamanho;
+			- 3: objeto, matriz de entrada, matriz de saida e numero de linhas;
+
+	Metodos de entrada e saida:
+
+		- setDataIn e setDataOut;
+		- getDataOut e getListOut;
+
+	Testes:
+		- Multiplicar cada elemento de uma vetor por cada função de um vetor de funções. OK
+		- Multiplicar cada linha de uma matriz por cada função de um vetor de funções. OK
+			-> Utilizando a composição de objetos.
+
+
+Esqueleto Scan:
+
+	template <T>;
+
+	Construtores:
+		- Vazio;
+		- Copia;
+		- Com parametros:
+			- 1: função, lista de entrada, lista de saida, tamanho das listas;
+			- 2: função e tamanho;
+			- 3: objeto, matriz de entrada, matriz de saida e numero de linhas;
+
+	Metodos de entrada e saida:
+
+		- setDataIn e setDataOut;
+		- getDataOut e getListOut;
+
+	Testes:
+		- 
+
+Esqueleto MapReduce:
+
+	template<IN,OUT>		
+		-> a função do map é o tipo IN -> OUT
+		-> a função do Reduce é do tipo OUT -> OUT
+
+	Construtores:
+		- Vazio;
+		- Copia;
+		- Com parametros:
+			- 1: função, lista de entrada, lista de saida, tamanho das listas;
+			- 2: função e tamanho;
+			- 3: objeto, matriz de entrada, matriz de saida e numero de linhas;
+
+	Metodos de entrada e saida:
+
+		- setDataIn e setDataOut;
+		- getDataOut e getListOut;
+
+	Testes:
+
+		
+
+
