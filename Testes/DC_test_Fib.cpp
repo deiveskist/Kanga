@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define PTHREADS
-#include "DC4.h"
+#include "../DC.h"
 
 using namespace kanga;
 
@@ -89,31 +89,4 @@ int main(int argc, char **argv){
   printf("result do DC ");
   fibOut->print();
 
-  dcFib->printQ();
-   
-   /*
-
-   int i;
-  Fib **vetIn = new Fib*[n];
-     
-  DC<Fib> *dcFib = new DC<Fib>(); 
-  for(i=0; i< n; i++){
-    vetIn[i]=new Fib(i+1);
-  }
-
-  for(i=0; i< n; i++){
-    vetIn[i]->start();
-  }
-
-
-  for(i=0; i< n; i++){
-    vetIn[i]->join();
-  }
-    
-  printf("\n");
-  for(i=0; i< n; i++){
-    vetIn[i]->print();
-  }
-  printf("\n");
-  */
 }

@@ -1,9 +1,9 @@
 #include <iostream>
 #include <stdio.h>
 #define PTHREADS
-#include "Reduce.h"
-#include "Zip.h"
-using namespace pi;
+#include "../Reduce.h"
+#include "../Zip.h"
+using namespace kanga;
 using namespace std;
 
 int* func(int* x, int* y){

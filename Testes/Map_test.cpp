@@ -9,19 +9,20 @@
 
 #define PTHREADS
 
-#include "Map.h"
-#include "Fork.h"
-#include "Reduce.h"
-#include "Scan.h" 
+#include "../Map.h"
+#include "../Fork.h"
+#include "../Reduce.h"
+#include "../Scan.h" 
 
 using namespace std;
-using namespace pi;
+using namespace kanga;
 
 int* func(int* x){
   //cout << *x << endl;
-  int i;
-   
-  return x;
+  int a = *x+10;
+  int *r= new int;
+  *r=a;
+  return r;
 }
 
 int* funcRed(int* x, int* y){
@@ -114,14 +115,18 @@ int main(int argc, char **argv){
   int *lista_out;
   int i;
   
- 
+  kanga::Map<int,int> map1;
+  map1.setFunction(func);
+  map1.start(); 
+  map1.join();
+
   cout << "Entrada do Map: " ;
   for(i=0; i< ta;i++){
     lista_in[i]=i+1;
     cout << i+1 << " ";
   }
   cout << endl;
-
+  
   Map<int,int> *map= new Map<int,int>(func,lista_in,lista_out,ta);
   map->start();
   map->join();

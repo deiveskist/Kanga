@@ -1,3 +1,8 @@
+/*
+ Implementa a classe Thread
+ Um objeto desta classe cria um thread
+*/
+
 #ifndef Thread_H
 #define Thread_H
 
@@ -95,38 +100,45 @@ class Thread : public Kanga<IN,OUT>{
     }
 
     void start(){
-  
-      #ifdef PTHREADS
-      pthread_create(&thid,NULL, &this->threadFunc, this); 
-     
-     #elif defined ANAHY
-      job.init(&this->threadFunc, this, NULL);
-     AnahyVM::fork(&job);
-     #endif
-     // job.init(&this->threadFunc, this, NULL);
-      //AnahyVM::fork(&job);
+    try{
+       if(this->threadFunc==NULL || this->dataIn1==NULL){
+         throw KException();
+       }
+       else{  
+         #ifdef PTHREADS
+          pthread_create(&thid,NULL, &this->threadFunc, this); 
+         
+         #elif defined ANAHY
+          job.init(&this->threadFunc, this, NULL);
+          AnahyVM::fork(&job);
+         #endif
+       }
+      }
+      catch(KException& e){
+        std::cout << e.what() << std::endl;
+        return ;
+      }  
     }
 
     void join(){
-
       #ifdef PTHREADS
-      pthread_join(thid,&(threadReturn));
+        pthread_join(thid,&(threadReturn));
 
-     #elif defined ANAHY
-      AnahyVM::join(&job, &(threadReturn));
-     #endif
+      #elif defined ANAHY
+        AnahyVM::join(&job, &(threadReturn));
+      #endif
      
       //AnahyVM::join(&job, &(threadReturn));
       //this->dataOut = static_cast<Thread*> (threadReturn);
     }
 
-    void setFunction(OUT* (*f) (IN*,IN*)){
+    void setFunction(OUT* (*f) (IN*)){
       this->funcUserUm=f;
       this->typeFunc=0;
     }
     
      void setFunc(OUT* (*func)(IN*)){
-      this->funcUserUm=func;
+      this->funcUserDois=func;
       this->typeFunc=1;
     }
 
@@ -161,21 +173,15 @@ class Thread : public Kanga<IN,OUT>{
     void *threadReturn;
     OUT* (*funcUserUm)(IN*);
     OUT* (*funcUserDois)(IN*,IN*);
-    
-    static OUT foo( ) { return NULL; }
-    
-    //AnahyJob job;
-
+    Kanga<IN,OUT> *obj;
+   
     #ifdef PTHREADS
       pthread_t thid;
 
      #elif defined ANAHY
         AnahyJob job;
      #endif
-    
-
-
-    Kanga<IN,OUT> *obj;
+      
 
     void run(){
       if(this->typeFunc==0){

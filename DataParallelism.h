@@ -1,8 +1,5 @@
-/*
- * DataParallelism.h
- *
- *  Created on: 30/10/2013
- *      Author: deives
+/* Classe que modela os esqueletos de paralelismo de dados
+ * armazena varaveis dos esqueletos: Map, Reduce, Zip, Fork, Scan, MapReduce
  */
 
 #ifndef DATAPARALLELISM_H_
@@ -16,13 +13,11 @@ namespace kanga{
 template< class IN, class OUT>
 class DataParallelism : public Kanga<IN,OUT> {
  public:
-
   DataParallelism() : listOut(v), matOut(m){
     this->length=0;
     this->listIn=NULL;
     this->listOutTemp=NULL;
     this->listOut=NULL;
-    this->dataOut=NULL;
     this->matIn=NULL;
     this->matOutTemp=NULL;
     this->matOut=NULL;
@@ -43,6 +38,9 @@ class DataParallelism : public Kanga<IN,OUT> {
     this->length=length;
     this->listOutTemp = new OUT[length];
     this->listInp= new IN*[length];
+    this->matIn=NULL;
+    this->matOutTemp=NULL;
+    this->matOut=NULL;
   }
    
   DataParallelism(IN ** matIn, OUT *& listOut, int length) : matOut(m),listOut(listOut){
@@ -51,6 +49,8 @@ class DataParallelism : public Kanga<IN,OUT> {
     this->matOutTemp= new OUT*[length];
     this->listOutTemp= new OUT[length];
     this->listInp= new IN*[length];
+    this->listIn=NULL;
+    this->listOut=NULL;
   }
 
   DataParallelism(IN ** matIn, OUT **& matOut, int length) : matOut(matOut),listOut(v){
@@ -65,38 +65,45 @@ class DataParallelism : public Kanga<IN,OUT> {
     this->listOutTemp = new OUT[length];
     this->length=length;    
     this->listInp= new IN*[length];
+    this->matIn=NULL;
+    this->matOutTemp=NULL;
+    this->matOut=NULL;
   }
   
-  void setDataIn(IN *listIn){
+  void setDataIn(IN *listIn){// seta o vetor de entrada
     this->listIn=listIn;
   }
   
-  void setDataOut(OUT *&listOut){
+  void setDataOut(OUT *&listOut){// seta a referencia para o vetor de saída
       this->listOut=listOut;
   }
+
+  void setLength(int n){// seta o tamanho do vetor de entrada
+    this->length=n;
+  }
     
-  OUT * geDataOut(){
+  OUT * getDataOut(){
     return this->listOut;
   } 
   
   virtual ~DataParallelism(){
     delete this->listIn;
-    delete this->listOut;
+    //delete this->listOut;
     delete this->matIn;
-    delete this->matOut;
+    //delete this->matOut;
     delete this->matOutTemp;
-    delete this->listOutTemp;
+    //delete this->listOutTemp;
     delete this->threads;
   }
   
   
  protected:
   Kanga<IN,OUT> **threads;
-  int length;
-  IN *listIn;
-  OUT *&listOut;
-  OUT *listOutTemp;
-  IN **matIn;
+  int length; // tamanho do vetor de entrada
+  IN *listIn; // ponteiro para o vetor de entrada
+  OUT *&listOut; // referencia para o vetor de saida
+  OUT *listOutTemp; // ponteiro para a memoria do vetor de saida
+  IN **matIn; // ponteiro para o vetor de ponteiros
   OUT **&matOut;
   OUT **matOutTemp;
   OUT **m;

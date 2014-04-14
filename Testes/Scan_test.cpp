@@ -1,19 +1,17 @@
 /*
  * Scan_test.cpp
  *
- *  Created on: 30/09/2013
- *      Author: deives
+
  */
 #include <iostream>
 #include <stdio.h>
 #define PTHREADS
-#include "Scan.h"
+#include "../Scan.h"
 
 using namespace std;
-using namespace pi;
+using namespace kanga;
 
 int* func(int* x, int* y){
-  printf("x %d y  %d \n", *x,*y);
   int a =*x+*y;
   int *r= new int;
   *r=a;
@@ -51,11 +49,14 @@ void PrintMatrix(int **matrix, int row, int col) {
 
 int main(int argc, char **argv){
  //   AnahyVM::init(argc, argv);
-  // testa com uma função
   int ta=4;
   int *lista_in = new int[ta];
   int *lista_out;
   int i;
+
+  Scan<int> scan1;
+  scan1.start();
+  scan1.join();
   
   cout << "Entrada do Scan: " ;
   cout << endl;
@@ -68,34 +69,11 @@ int main(int argc, char **argv){
   scan->start();
   scan->join();
   cout << "Saida do Scan: " << endl;
-  //lista_out=scan->getListOut();
   for(i=0; i< ta;i++){ 
     
     printf("%3d ",lista_out[i]);
   }
   cout << endl;
-  /*int **matIn;
-  int **matOut;
   
-  int row = 2;
-  int col = 10;
-
-  cout << "Entrada do Scan Composite: ";
-  cout <<"\n";
-  matIn = CreateMatrix(row, col);
-  MatrixInput(matIn, row, col);
-  
-  PrintMatrix(matIn, row, col);
-  cout << endl;
-
-  Scan<int> *scandentro = new Scan<int>(func,col);
-  Scan<int> *scanfora = new Scan<int>(scandentro,matIn,matOut,row);
-  scanfora->start();
-  scanfora->join();
- 
-  cout <<" Saida do Scan Composite: ";
-  cout <<"\n";
-  PrintMatrix(matOut, row, col);
-  */
   return 0;
 }

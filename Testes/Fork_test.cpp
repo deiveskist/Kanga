@@ -1,15 +1,11 @@
-/*
- * Map_test.cpp
- *
- *  Created on: 25/09/2013
- *      Author: deives
- */
 #include <iostream>
+#include <stdio.h>
+#define PTHREADS
+//#define ANAHY
 
-//#define PTHREADS
-#define ANAHY
+#include "../Fork.h"
 
-#include "Fork.h"
+using namespace kanga;
 
 int* dobro(int *x){
   *x=*x*2;
@@ -67,7 +63,7 @@ void PrintMatrix(int **matrix, int row, int col) {
 
 
 int main(int argc, char **argv){
-    AnahyVM::init(argc, argv);
+  //  AnahyVM::init(argc, argv);
   // testa com uma função
   int* (*func[5])(int*) = {dobro,triplo,soma2,soma4,soma6};
   int ta=5;
@@ -75,7 +71,10 @@ int main(int argc, char **argv){
   int *lista_out;
   int i;
   
- 
+  Fork<int,int> fork1;
+  fork1.start();
+  fork1.join();
+
   cout << "Entrada do Fork: " ;
   for(i=0; i< ta;i++){
     lista_in[i]=i+1;
@@ -115,14 +114,14 @@ int main(int argc, char **argv){
   PrintMatrix(matIn, row, col);
   cout << endl;
 
-  Fork<int,int> *forkdentro = new Fork<int,int>(func,col);
+  /*Fork<int,int> *forkdentro = new Fork<int,int>(func,col);
   Fork<int,int> *forkfora = new Fork<int,int>(forkdentro,matIn,matOut,row);
   forkfora->start();
   forkfora->join();
- 
+  */ 
   cout <<" Saida do Fork Composite: ";
   cout <<"\n";
-  PrintMatrix(matOut, row, col);
-  AnahyVM::terminate();
+  //PrintMatrix(matOut, row, col);
+  //AnahyVM::terminate();
   return 0;
 }
